@@ -33,13 +33,24 @@ export function interleave(lists: Video[][], exclude: Set<string>, limit: number
   return merged;
 }
 
-/** Fills empty slots with the next unpicked candidates in search order. */
+function titleKey(video: Video): string {
+  return video.title.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
+}
+
+/**
+ * Drops reuploads (same title as an earlier pick), then fills empty slots with
+ * the next candidates in search order.
+ */
 export function topUp(ranked: RankedVideo[], candidates: Video[], count: number): RankedVideo[] {
-  const picked = new Set(ranked.map((video) => video.id));
-  const filled = [...ranked];
-  for (const video of candidates) {
+  const ids = new Set<string>();
+  const titles = new Set<string>();
+  const filled: RankedVideo[] = [];
+  for (const video of [...ranked, ...candidates.map((v) => ({ ...v, reason: "" }))]) {
     if (filled.length >= count) break;
-    if (!picked.has(video.id)) filled.push({ ...video, reason: "" });
+    if (ids.has(video.id) || titles.has(titleKey(video))) continue;
+    ids.add(video.id);
+    titles.add(titleKey(video));
+    filled.push(video);
   }
   return filled;
 }

@@ -68,7 +68,7 @@ const EXPAND_SYSTEM = `You turn someone's half-remembered description of an onli
 
 People misremember details, so spread your bets. Mix literal keywords from their description with the wording the real title probably uses, the name of the meme or trend if you recognize it, and other ways of describing the key moment. Write each query the way someone types into YouTube: 2 to 8 words, no quotes, no years or channel names unless they mentioned them.
 
-When they say a result was close, pivot on that video's wording and tags. When they correct a detail, the correction wins over the original description.`;
+When they say a result was close, work out what that video has in common with their memory (the subject, setting, or moment, not incidental words) and steer the queries toward videos like it. When they correct a detail, the correction wins over the original description.`;
 
 export function cleanQueries(raw: string[], count: number): string[] {
   const seen = new Set<string>();
@@ -113,9 +113,12 @@ export async function expandQueries(
 
 const RANK_SYSTEM = `You pick which YouTube search results best match someone's half-remembered description of a video.
 
-Judge each candidate's title, tags and description against what they remember. Corrections override the original description where they conflict. Prefer the original upload over reuploads and compilations unless they describe a compilation.
+Judge each candidate's title, tags and description against what they remember. Corrections override the original description where they conflict. When they said a result was close, favor videos like it in subject and setting. Prefer the original upload, and skip reuploads of a video you already picked. Skip compilations unless they describe one.
 
-For each pick, write a reason of at most 10 words naming the specific detail that matches. It is shown under the video, so keep it plain and concrete.`;
+Each pick gets a reason shown under the video: at most 8 words saying what's in the video that fits what they remember. Describe the video, not your judgment, and never mention candidates, matches, the description or corrections.
+Good: "Husky howling along to Adele"
+Good: "Cat in a blue shirt, filmed in 1984"
+Bad: "Matches the correction about breed and song"`;
 
 export function resolvePicks(
   picks: { number: number; reason: string }[],

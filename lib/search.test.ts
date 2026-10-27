@@ -45,6 +45,13 @@ describe("topUp", () => {
       ["d", ""],
     ]);
   });
+
+  it("drops reuploads that repeat an earlier title", () => {
+    const original = { ...video("a"), title: "Baby Laughing (Original)", reason: "r" };
+    const reupload = { ...video("b"), title: "baby laughing — original!", reason: "r" };
+    const filled = topUp([original, reupload], [{ ...reupload }, video("c")], 3);
+    expect(filled.map((v) => v.id)).toEqual(["a", "c"]);
+  });
 });
 
 describe("fallbackQuery", () => {
