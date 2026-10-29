@@ -24,7 +24,7 @@ Run this on any machine that can reach `api.elevenlabs.io` (Node.js 22 or newer)
 ```bash
 git clone https://github.com/pbakerx/whatsthatvideo
 cd whatsthatvideo
-git checkout main 2>/dev/null || git checkout claude/spec-document-video-1qbr3x
+git checkout main
 npm install
 printf 'ELEVENLABS_API_KEY=%s\n' "<the key>" > .env.local
 npm run setup:agent
@@ -42,7 +42,7 @@ It creates three client tools and an agent, then prints `ELEVENLABS_AGENT_ID=age
 1. Import `pbakerx/whatsthatvideo` from GitHub as a new project.
 2. Framework preset: **Next.js** (auto-detected). Leave the root directory, install command and build command at their defaults.
 3. Node.js version: 22.x or newer.
-4. Production branch: `main` if it exists, otherwise `claude/spec-document-video-1qbr3x`.
+4. Production branch: `main`. If Vercel picked another branch on import, change it in the project's Git settings.
 5. Plan: Vercel's Hobby plan is for non-commercial use only. Since this is an AechTech demo, ask Philip which team or plan to use.
 
 The CLI equivalent is `vercel link`, then `vercel env add` for each variable, then `vercel --prod`.
