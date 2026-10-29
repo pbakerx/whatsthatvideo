@@ -30,7 +30,7 @@ npm run dev
 
 Voice is optional: without the ElevenLabs keys the mic button says so, and typed search still works.
 
-To deploy, import the repo into Vercel and set the same environment variables there.
+To deploy, follow [DEPLOY.md](DEPLOY.md).
 
 ## Cost guards
 

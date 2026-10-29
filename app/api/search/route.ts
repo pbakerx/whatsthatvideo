@@ -4,6 +4,9 @@ import { findVideos } from "@/lib/search";
 import type { SearchError, SearchErrorCode } from "@/lib/types";
 import { YouTubeError } from "@/lib/youtube";
 
+// A round is two model calls plus parallel YouTube calls, usually 3-8s.
+export const maxDuration = 30;
+
 const RequestSchema = z.object({
   description: z.string().trim().min(1).max(500),
   feedback: z.array(z.string().trim().min(1).max(200)).max(MAX_REFINEMENTS).default([]),
